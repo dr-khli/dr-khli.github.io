@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kuei-Hao Li · Teaching &amp; Research</title>
+<meta name="description" content="Kuei-Hao (Howard) Li, Ph.D. — human–AI interaction, agentic AI systems for learning, Socratic dialogue tutoring, learning analytics, and English-medium instruction.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+TC:wght@500&display=swap">
+<style>
+/* Layout: a reading column with a left section rail; the hero shows one Socratic exchange tagged by Bloom level. */
+:root{
+  --bg:#f5f7f6; --surface:#ffffff; --ink:#16201d; --muted:#5a6863; --line:#d9e1de;
+  --accent:#0d6b57; --accent-soft:#e1efe9; --mark:#b5651d; --mark-soft:#f6eadd;
+  --f-display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --f-cjk:"Noto Serif TC","PingFang TC","Microsoft JhengHei",serif;
+  --step--1:0.84rem; --step-0:1.05rem; --step-1:1.3rem; --step-2:1.75rem; --step-3:clamp(2.2rem,5vw,3.4rem);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#101614; --surface:#17201d; --ink:#e6ece9; --muted:#9aa9a3; --line:#2a3632;
+  --accent:#5fc4a8; --accent-soft:#183129; --mark:#e3a464; --mark-soft:#33261a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101614; --surface:#17201d; --ink:#e6ece9; --muted:#9aa9a3; --line:#2a3632;
+  --accent:#5fc4a8; --accent-soft:#183129; --mark:#e3a464; --mark-soft:#33261a; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--step-0);line-height:1.62;margin:0}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.15;margin:0}
+.wrap{max-width:1080px;margin-inline:auto;padding-inline:20px}
+.mono{font-family:var(--f-mono);font-size:var(--step--1)}
+.cjk{font-family:var(--f-cjk);font-weight:500}
+code{font-family:var(--f-mono);font-size:.9em}
+
+/* nav */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:.01em}
+.brand span{color:var(--muted);font-weight:500}
+.top nav{display:flex;gap:18px;flex-wrap:wrap}
+.top nav a{font-family:var(--f-display);font-size:.95rem;color:var(--muted);text-decoration:none}
+.top nav a:hover{color:var(--accent)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;padding-block:64px 56px;align-items:center}
+.hero>*{min-width:0}
+.eyebrow{font-family:var(--f-mono);font-size:var(--step--1);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:var(--step-3);font-weight:700;margin-top:14px;letter-spacing:-.015em}
+.hero h1 .cjk{display:block;font-size:.5em;color:var(--muted);margin-top:8px;letter-spacing:.12em}
+.roles{list-style:none;margin:18px 0 0;padding:0;color:var(--muted);display:grid;gap:2px;max-width:56ch}
+.thesis{font-family:var(--f-display);font-size:var(--step-1);font-weight:600;margin-top:22px;max-width:30ch}
+.thesis em{font-style:normal;color:var(--accent)}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.btn{font-family:var(--f-display);font-weight:600;font-size:.95rem;padding:9px 16px;border-radius:999px;border:1px solid var(--line);color:var(--ink);text-decoration:none;background:var(--surface)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn:hover{border-color:var(--accent)}
+
+/* socratic exchange */
+.dialog{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:14px;margin:0}
+.dialog .cap{display:flex;justify-content:space-between;gap:8px;color:var(--muted)}
+.turn{display:grid;gap:6px}
+.turn .who{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.turn p{margin:0;padding:10px 14px;border-radius:12px;font-size:.98rem;line-height:1.45}
+.turn.s{justify-items:end}
+.turn.s p{background:var(--bg);border:1px solid var(--line);max-width:85%}
+.turn.t p{background:var(--accent-soft)}
+.bloom{justify-self:start;font-family:var(--f-mono);font-size:.72rem;padding:2px 8px;border-radius:999px;background:var(--mark-soft);color:var(--mark)}
+.turn.s .bloom{justify-self:end}
+
+/* sections */
+section{padding-block:56px;border-top:1px solid var(--line)}
+.sec{display:grid;grid-template-columns:200px 1fr;gap:40px}
+.sec>*{min-width:0}
+.sec-head h2{font-size:var(--step-2);font-weight:700}
+.sec-head .cjk{display:block;color:var(--muted);font-size:.95rem;margin-top:6px;letter-spacing:.1em}
+.lead{max-width:65ch;margin:0 0 28px}
+.question{font-family:var(--f-display);font-size:var(--step-1);font-weight:600;line-height:1.35;max-width:46ch;margin:0 0 28px;padding-left:18px;border-left:3px solid var(--accent)}
+h3.sub-h{font-size:var(--step-1);font-weight:600;margin:40px 0 14px}
+
+/* research agenda */
+.agenda{display:grid;gap:22px}
+.level{display:grid;grid-template-columns:48px 1fr;gap:16px}
+.level>*{min-width:0}
+.level .rn{font-family:var(--f-display);font-weight:700;font-size:var(--step-2);color:var(--accent);line-height:1}
+.level h3{font-size:var(--step-1);font-weight:600;margin-bottom:6px}
+.level p{margin:0;color:var(--muted);max-width:62ch}
+
+/* bloom strip */
+.ladder{margin-top:36px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.ladder .cap{color:var(--muted);margin:0 0 14px}
+.rungs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;align-items:end}
+.rung{display:grid;gap:6px;text-align:center}
+.rung .bar{background:var(--accent);border-radius:4px 4px 0 0;opacity:.85}
+.rung .lab{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);overflow-wrap:anywhere}
+.ladder .note{margin:14px 0 0;font-size:.9rem;color:var(--muted)}
+
+/* facts */
+.facts{display:flex;flex-wrap:wrap;gap:12px 40px;margin:0 0 28px;padding:0;list-style:none}
+.facts li{display:grid}
+.facts b{font-family:var(--f-display);font-size:var(--step-2);font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent)}
+.facts span{font-size:.9rem;color:var(--muted)}
+
+/* publications */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filters button{font-family:var(--f-display);font-size:.9rem;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.filters button .c{font-family:var(--f-mono);font-size:.78rem;opacity:.7;margin-left:4px}
+.pubs{list-style:none;margin:0;padding:0}
+.pub{display:grid;grid-template-columns:64px 1fr;gap:18px;padding-block:18px;border-bottom:1px solid var(--line)}
+.pub>*{min-width:0}
+.pub .yr{font-family:var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px;display:grid;gap:2px;align-content:start}
+.pub .yr b{color:var(--accent);font-weight:500}
+.pub .t{font-family:var(--f-display);font-weight:600;font-size:1.08rem;line-height:1.3}
+.pub .a{margin-top:4px;color:var(--muted);font-size:.95rem}
+.pub .a b{color:var(--ink);font-weight:600}
+.pub .v{margin-top:4px;font-size:.95rem}
+.pub .v i{font-style:italic}
+.pub .meta{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:8px;align-items:center}
+.pill{font-family:var(--f-mono);font-size:.72rem;padding:2px 9px;border-radius:999px;border:1px solid currentColor;letter-spacing:.03em}
+.pill.ok{color:var(--accent)}
+.pill.hl{color:var(--mark)}
+.pub .doi{font-family:var(--f-mono);font-size:.8rem;overflow-wrap:anywhere}
+.pubnote{color:var(--muted);margin:0 0 8px;font-size:.92rem}
+
+/* teaching */
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px}
+.cols>*{min-width:0}
+.cols h3{font-size:var(--step-1);font-weight:600;margin-bottom:6px}
+.cols .sub{color:var(--muted);font-size:.92rem;margin:0 0 14px}
+.course{list-style:none;margin:0;padding:0}
+.course li{display:grid;grid-template-columns:1fr auto;gap:12px;padding-block:10px;border-bottom:1px dashed var(--line);align-items:baseline}
+.course li>*{min-width:0}
+.course .n{font-family:var(--f-display);font-weight:500}
+.course .n small{display:block;font-family:var(--f-cjk);color:var(--muted);font-size:.85rem;font-weight:400}
+.course .tag{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);white-space:nowrap}
+.taught{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.taught li{font-family:var(--f-display);font-size:.92rem;padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.awards-strip{margin:36px 0 0;padding:18px 22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;display:grid;gap:6px;max-width:70ch}
+.awards-strip .mono{color:var(--muted)}
+.awards-strip p{margin:0}
+
+/* uedu */
+.agents{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:8px}
+.agent{padding:18px 16px;background:var(--surface);border:1px solid var(--line)}
+.agent:first-child{border-radius:14px 0 0 14px}
+.agent:last-child{border-radius:0 14px 14px 0}
+.agent+.agent{border-left:none}
+.agent .step{font-family:var(--f-mono);font-size:.72rem;color:var(--accent);letter-spacing:.06em}
+.agent h3{font-size:1.02rem;font-weight:600;margin:6px 0}
+.agent p{margin:0;font-size:.9rem;color:var(--muted);line-height:1.45}
+.loopnote{font-size:.9rem;color:var(--muted);margin:12px 0 0}
+.infra{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 32px}
+.infra>div{min-width:0}
+.infra .k{display:block;font-family:var(--f-mono);font-size:.75rem;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.infra h4{font-family:var(--f-display);font-size:1.05rem;font-weight:600;margin:0 0 6px}
+.infra p{margin:0;color:var(--muted);font-size:.95rem}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:120px 1fr;gap:18px;padding-block:12px;border-bottom:1px solid var(--line)}
+.tl li>*{min-width:0}
+.tl .d{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:3px}
+.tl .r{font-family:var(--f-display);font-weight:600}
+.tl .o{color:var(--muted);font-size:.95rem}
+.tl .x{margin-top:4px;font-size:.93rem}
+
+/* contact */
+.contact dl{display:grid;grid-template-columns:140px 1fr;gap:10px 18px;margin:0}
+.contact dt{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding-top:3px}
+.contact dd{margin:0;overflow-wrap:anywhere}
+.copy{font-family:var(--f-mono);font-size:.75rem;margin-left:8px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:32px;padding-block:40px}
+  .sec{grid-template-columns:1fr;gap:20px}
+  .agents{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .agent:first-child{border-radius:14px 0 0 0}.agent:nth-child(2){border-radius:0 14px 0 0}
+  .agent:nth-child(3){border-radius:0 0 0 14px;border-left:1px solid var(--line)}.agent:last-child{border-radius:0 0 14px 0}
+  .agent:nth-child(n+3){border-top:none}
+}
+@media (max-width:600px){
+  .cols,.infra{grid-template-columns:1fr}
+  .top nav{gap:12px}
+  .pub{grid-template-columns:1fr;gap:4px}
+  .pub .yr{display:flex;gap:10px}
+  .tl li{grid-template-columns:1fr;gap:2px}
+  .contact dl{grid-template-columns:1fr;gap:2px 0}.contact dd{margin-bottom:10px}
+  .level{grid-template-columns:36px 1fr;gap:12px}
+  .rung .lab{font-size:.62rem}
+}
+@media (max-width:440px){
+  .agents{grid-template-columns:1fr}
+  .agent,.agent:first-child,.agent:nth-child(2),.agent:nth-child(3),.agent:last-child{border-radius:0;border-left:1px solid var(--line);border-top:none}
+  .agent:first-child{border-radius:14px 14px 0 0;border-top:1px solid var(--line)}
+  .agent:last-child{border-radius:0 0 14px 14px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#about">Kuei-Hao Li <span>· 李奎皓</span></a>
+    <nav aria-label="Sections">
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#uedu">Uedu</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="about">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Human–AI Interaction · Agentic AI · Learning Analytics · EMI</div>
+      <h1>Kuei-Hao (Howard) Li, Ph.D.<span class="cjk">李奎皓 博士</span></h1>
+      <ul class="roles">
+        <li>Co-Founder and Lead Developer, Uedu Academy, National Central University</li>
+        <li>Co-Principal Investigator, AI and Digital Database Application Laboratory, ITRI</li>
+        <li>Lecturer, Department of Foreign Languages and Literatures, NYCU</li>
+        <li>Ph.D., International Intercollegiate Ph.D. Program, National Tsing Hua University (2026)</li>
+      </ul>
+      <p class="thesis">I design AI tutors that <em>ask before they answer</em>, and study what that does to how students think.</p>
+      <div class="links">
+        <a class="btn primary" href="#publications">Publications</a>
+        <a class="btn" href="cv.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+        <a class="btn" href="https://orcid.org/0009-0007-3474-8489" target="_blank" rel="noopener">ORCID ↗</a>
+        <a class="btn" href="https://uedu.tw" target="_blank" rel="noopener">Uedu.tw ↗</a>
+      </div>
+    </div>
+
+    <figure class="dialog" aria-label="Example Socratic tutoring exchange">
+      <div class="cap mono"><span>Socratic tutor · sample turn</span><span>Bloom level</span></div>
+      <div class="turn s">
+        <span class="who">Student</span>
+        <p>Can you just tell me why my loop prints the last item twice?</p>
+        <span class="bloom">Remember</span>
+      </div>
+      <div class="turn t">
+        <span class="who">AI Teaching Assistant</span>
+        <p>Let's trace it together. What is the value of <code>i</code> on the final pass, and what does your condition check before it prints?</p>
+        <span class="bloom">→ Analyze</span>
+      </div>
+      <div class="turn s">
+        <span class="who">Student</span>
+        <p>Oh. It checks <code>i &lt;= len</code>, so it goes one step too far.</p>
+        <span class="bloom">Analyze</span>
+      </div>
+    </figure>
+  </div>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="sec">
+      <div class="sec-head"><h2>Research</h2><span class="cjk">研究方向</span></div>
+      <div>
+        <p class="lead">My research concerns the design, deployment, and empirical evaluation of agentic systems built on large language models. It is organised around one question:</p>
+        <p class="question">When an autonomous system takes on part of a user's cognitive work, how should it be architected, instrumented, and governed so that the user keeps agency over the task?</p>
+        <div class="agenda">
+          <div class="level"><span class="rn">I</span><div><h3>System architecture for agentic AI</h3><p>Multi-agent LLM systems in which task planning, adaptive feedback, and reflective prompting are separate, cooperating components; orchestration policies that decide how much of a task the system performs; retrieval-augmented grounding; and on-premise inference for institutions with data-sovereignty constraints.</p></div></div>
+          <div class="level"><span class="rn">II</span><div><h3>Instrumentation and data infrastructure</h3><p>Multimodal data lakes that combine dialogue text, speech, behavioural logs, and wearable physiological signals; automated semantic classification of interaction traces at scale; de-identification, consent management, and ethical reuse of data collected in operational systems.</p></div></div>
+          <div class="level"><span class="rn">III</span><div><h3>Evaluation of user and organisational effects</h3><p>Quasi-experimental and large-sample observational designs; mixed-effects modelling of nested interaction logs; adoption of generative AI across disciplines; and AI literacy and governance as conditions for responsible use.</p></div></div>
+        </div>
+
+        <div class="ladder" aria-label="Bloom's Taxonomy levels used to code student messages">
+          <p class="cap mono">How Uedu annotates each turn · Bloom's revised taxonomy, lower to higher order</p>
+          <div class="rungs">
+            <div class="rung"><div class="bar" style="height:22px"></div><span class="lab">Remember</span></div>
+            <div class="rung"><div class="bar" style="height:34px"></div><span class="lab">Understand</span></div>
+            <div class="rung"><div class="bar" style="height:46px"></div><span class="lab">Apply</span></div>
+            <div class="rung"><div class="bar" style="height:58px"></div><span class="lab">Analyze</span></div>
+            <div class="rung"><div class="bar" style="height:70px"></div><span class="lab">Evaluate</span></div>
+            <div class="rung"><div class="bar" style="height:82px"></div><span class="lab">Create</span></div>
+          </div>
+          <p class="note">The cognitive-level label on every turn gives a continuous trace of how students use the system, and of what moves their next message one rung up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="sec">
+      <div class="sec-head"><h2>Publications</h2><span class="cjk">學術著作</span></div>
+      <div>
+        <ul class="facts">
+          <li><b>60,000+</b><span>classified interaction turns</span></li>
+          <li><b>116</b><span>courses in the corpus</span></li>
+          <li><b>3</b><span>Q1 journal articles</span></li>
+        </ul>
+        <div class="filters" role="group" aria-label="Filter publications">
+          <button type="button" id="f-all" data-f="all" aria-pressed="true">All<span class="c">17</span></button>
+          <button type="button" id="f-j" data-f="j" aria-pressed="false">Journal articles<span class="c">3</span></button>
+          <button type="button" id="f-c" data-f="c" aria-pressed="false">Conference proceedings<span class="c">9</span></button>
+          <button type="button" id="f-p" data-f="p" aria-pressed="false">Presentations<span class="c">5</span></button>
+        </div>
+        <p class="pubnote">Author order follows each byline. Complete record at <a href="https://orcid.org/0009-0007-3474-8489" target="_blank" rel="noopener">ORCID 0009-0007-3474-8489</a>.</p>
+        <ol class="pubs" id="pubs">
+          <li class="pub" data-s="j"><span class="yr"><b>J3</b>2026</span><div>
+            <div class="t">Designing and evaluating a Socratic-scaffolded conversational AI assistant for educational tasks: Cross-cohort effectiveness, user perception, and the effort signature</div>
+            <div class="a"><b>Li, K.-H.</b>, &amp; Chang, C.-K.</div>
+            <div class="v"><i>International Journal of Human–Computer Interaction.</i> Taylor &amp; Francis.</div>
+            <div class="meta"><span class="pill ok">SCIE &amp; SSCI · Q1</span><span class="pill ok">First &amp; corresponding author</span><a class="doi" href="https://doi.org/10.1080/10447318.2026.2717500" target="_blank" rel="noopener">doi:10.1080/10447318.2026.2717500</a></div>
+          </div></li>
+          <li class="pub" data-s="j"><span class="yr"><b>J2</b>2026</span><div>
+            <div class="t">Agentic AI as a dual-role lecturer and teaching assistant: Effects on learner autonomy, self-regulated learning, and intrinsic motivation in university-level EFL education</div>
+            <div class="a"><b>Li, K.-H.</b>, &amp; Chang, C.-K.</div>
+            <div class="v"><i>Frontiers in Psychology, 17</i>, 1847607.</div>
+            <div class="meta"><span class="pill ok">SSCI · Q1</span><span class="pill ok">First author</span><a class="doi" href="https://doi.org/10.3389/fpsyg.2026.1847607" target="_blank" rel="noopener">doi:10.3389/fpsyg.2026.1847607</a></div>
+          </div></li>
+          <li class="pub" data-s="j"><span class="yr"><b>J1</b>2026</span><div>
+            <div class="t">Chat as learning: Student–AI conversations as discipline-associated cognitive engagement patterns</div>
+            <div class="a">Chang, C.-K., &amp; <b>Li, K.-H.</b></div>
+            <div class="v"><i>Computers and Education: Artificial Intelligence.</i> Elsevier.</div>
+            <div class="meta"><span class="pill ok">JCR Q1</span><a class="doi" href="https://doi.org/10.1016/j.caeai.2026.100644" target="_blank" rel="noopener">doi:10.1016/j.caeai.2026.100644</a></div>
+          </div></li>
+
+          <li class="pub" data-s="c"><span class="yr"><b>C9</b>2026</span><div>
+            <div class="t">AI teaching assistants at scale: Cross-disciplinary patterns of adoption and cognitive engagement across hundreds of university courses</div>
+            <div class="a">Chang, C.-K., &amp; <b>Li, K.-H.</b></div>
+            <div class="v">In <i>Proceedings of the ACM Conference on Learning @ Scale (L@S 2026)</i>, Seoul, Republic of Korea.</div>
+            <div class="meta"><span class="pill hl">Best Paper Award shortlist</span><span class="pill ok">Full paper</span><a class="doi" href="https://doi.org/10.1145/3774398.3811596" target="_blank" rel="noopener">doi:10.1145/3774398.3811596</a></div>
+          </div></li>
+          <li class="pub" data-s="c"><span class="yr"><b>C8</b>2026</span><div>
+            <div class="t">PALM: Scaling physiologically-aware AI tutoring through consumer wearables and large language models</div>
+            <div class="a">Chang, C.-K., &amp; <b>Li, K.-H.</b></div>
+            <div class="v">In <i>Proceedings of the ACM Conference on Learning @ Scale (L@S 2026)</i>, Seoul, Republic of Korea.</div>
+            <div class="meta"><span class="pill ok">Work-in-progress paper</span><a class="doi" href="https://doi.org/10.1145/3774398.3811576" target="_blank" rel="noopener">doi:10.1145/3774398.3811576</a></div>
+          </div></li>
+          <li class="pub" data-s="c"><span class="yr"><b>C7</b>2026</span><div>
+            <div class="t">From wearables to classrooms: A person-centered feasibility study of HRV-based physiological monitoring for learning analytics</div>
+            <div class="a">Chang, C.-K., <b>Li, K.-H.</b>, Cheng, C.-L., &amp; Lin, T.-C.</div>
+            <div class="v">In <i>Proceedings of the IEEE International Conference on Swiss Data Science (SDS 2026)</i>.</div>
+            <div class="meta"><a class="doi" href="https://doi.org/10.1109/SDS70563.2026.00035" target="_blank" rel="noopener">doi:10.1109/SDS70563.2026.00035</a></div>
+          </div></li>
+          <li class="pub" data-s="c"><span class="yr"><b>C6</b>2026</span><div>
+            <div class="t">Uedu: A six-dimensional educational omics platform bridging AI, physiological sensing, and classroom practice</div>
+            <div class="a">Chang, C.-K., &amp; <b>Li, K.-H.</b></div>
+            <div class="v"><i>European Conference on Technology Enhanced Learning (EC-TEL 2026)</i>, Industry and Practitioner Track.</div>
+          </div></li>
+          <li class="pub" data-s="c"><span class="yr"><b>C5</b>2026</span><div>
+            <div class="t">Uedu: A mindfully designed AI-assisted learning platform across four universities in Taiwan</div>
+            <div class="a">Chang, C.-K., &amp; <b>Li, K.-H.</b></div>
+            <div class="v"><i>European Conference on Technology Enhanced Learning (EC-TEL 2026)</i>, Demonstration Track.</div>
+          </div></li>
+          <li class="pub" data-s="c"><span class="yr"><b>C4</b>2025</span><div>
+            <div class="t">Designing an educational omics data lake: A multimodal infrastructure for technology-enhanced learning</div>
+            <div class="a">Chang, C.-K., &amp; <b>Li, K.-H.</b></div>
+            <div class="v">In <i>Proceedings of the 7th International Conference on Modern Educational Technology (ICMET 2025)</i>, Kyushu University, Fukuoka, Japan.</div>
+            <div class="meta"><a class="doi" href="https://doi.org/10.1109/ICMET67594.2025.11452000" target="_blank" rel="noopener">doi:10.1109/ICMET67594.2025.11452000</a></div>
+          </div></li>
+          <li class="pub" data-s="c"><span class="yr"><b>C3</b>2025</span><div>
+            <div class="t">Correlation analysis of conversational focus with learning experience in Python courses</div>
+            <div class="a">Yen, C.-C., Chang, Y.-Y., Chai, Y.-Z., Hsieh, P.-T., <b>Li, K.-H.</b>, &amp; Chang, C.-K.</div>
+            <div class="v">In <i>Proceedings of the 7th International Conference on Modern Educational Technology (ICMET 2025)</i>, Fukuoka, Japan.</div>
+            <div class="meta"><a class="doi" href="https://doi.org/10.1109/ICMET67594.2025.11451926" target="_blank" rel="noopener">doi:10.1109/ICMET67594.2025.11451926</a></div>
+          </div></li>
+          <li class="pub" data-s="c"><span class="yr"><b>C2</b>2025</span><div>
+            <div class="t">Construction of the Uedu education omics data lake and multimodal research on speech, text, and neurophysiological signals</div>
+            <div class="a">Chang, J.-K., <b>Li, K.-H.</b>, Li, J.-T., Yen, C.-J., Furqon, E. N., Cheng, C.-L., et al.</div>
+            <div class="v">In <i>Proceedings of the 2025 TANET and NCS Conference</i>, Taiwan.</div>
+          </div></li>
+          <li class="pub" data-s="c"><span class="yr"><b>C1</b>2017</span><div>
+            <div class="t">Interaction tasks of the CUE model in virtual language learning environments</div>
+            <div class="a"><b>Li, K.-H.</b>, &amp; Huang, Y.-C.</div>
+            <div class="v">In <i>Proceedings of the 17th IEEE International Conference on Advanced Learning Technologies (ICALT 2017)</i>, Paris, France.</div>
+          </div></li>
+
+          <li class="pub" data-s="p"><span class="yr"><b>P5</b>2017</span><div>
+            <div class="t">Student engagement and motivation in the CUE model for virtual reality learning environments</div>
+            <div class="a"><b>Li, K.-H.</b></div>
+            <div class="v"><i>EuroCALL 2017</i>, University of Southampton, United Kingdom.</div>
+          </div></li>
+          <li class="pub" data-s="p"><span class="yr"><b>P4</b>2017</span><div>
+            <div class="t">Learning analytics in learning management systems: The E3 platform at National Chiao Tung University</div>
+            <div class="a"><b>Li, K.-H.</b></div>
+            <div class="v"><i>19th International CALL Research Conference</i>, University of California, Berkeley, United States.</div>
+          </div></li>
+          <li class="pub" data-s="p"><span class="yr"><b>P3</b>2017</span><div>
+            <div class="t">Student engagement in the flipped classroom within virtual language learning environments</div>
+            <div class="a"><b>Li, K.-H.</b></div>
+            <div class="v"><i>19th International CALL Research Conference</i>, University of California, Berkeley, United States.</div>
+          </div></li>
+          <li class="pub" data-s="p"><span class="yr"><b>P2</b>2016</span><div>
+            <div class="t">The flipped classroom: Undergraduate perceptions of social media use in writing instruction</div>
+            <div class="a"><b>Li, K.-H.</b></div>
+            <div class="v"><i>33rd International Conference on English Teaching and Learning</i>, National Changhua University of Education, Taiwan.</div>
+          </div></li>
+          <li class="pub" data-s="p"><span class="yr"><b>P1</b>2015</span><div>
+            <div class="t">Examining indirect complaint discourse in a computer-mediated communication context</div>
+            <div class="a"><b>Li, K.-H.</b>, &amp; Chen, R.-H.</div>
+            <div class="v"><i>12th Wenshan International Conference</i>, National Chengchi University, Taipei, Taiwan.</div>
+          </div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEACHING -->
+  <section id="teaching">
+    <div class="sec">
+      <div class="sec-head"><h2>Teaching</h2><span class="cjk">教學</span></div>
+      <div>
+        <p class="lead">Since 2016 I have taught information-technology subjects entirely in English at national universities in Taiwan, including NTHU, NYCU, NTUST, NTU, and NTNU. My courses are project-based, and most use AI agents inside the classroom rather than only as a topic at the front of it.</p>
+
+        <h3 class="sub-h" style="margin-top:0">Courses taught</h3>
+        <ul class="taught">
+          <li>Human–Computer Interaction</li><li>Introduction to Cloud Computing</li><li>Blockchain Applications</li>
+          <li>Introduction to Internet and Networking</li><li>Computer-Assisted Language Learning</li><li>Computer-Mediated Communication</li>
+          <li>Learning Analytics in LMS</li><li>Social Network Analysis</li><li>Digital Instructional Design and Application</li>
+          <li>Internet Literacy and Ethics</li><li>Generative AI: An Interdisciplinary Introduction</li><li>AI Applications in Business</li>
+          <li>Seminar on Learning Technology</li><li>Public Speaking and Debate</li><li>Teaching ESP</li><li>EMI and Content Teaching</li>
+          <li>Topics on Applied Linguistics</li><li>Corpus Linguistics</li><li>English for Science and Technology</li>
+          <li>Technical and Scientific Writing</li><li>Academic English Writing</li><li>Academic Writing and Communication for IS Research</li>
+        </ul>
+
+        <div class="cols" style="margin-top:40px">
+          <div>
+            <h3>Graduate courses ready to offer</h3>
+            <p class="sub">3 credits · one 3-hour block · 16 weeks · in English</p>
+            <ul class="course">
+              <li><span class="n">Human-Centered AI Design<small>人本人工智慧設計</small></span><span class="tag">Grad</span></li>
+              <li><span class="n">AI-Agent-Enabled Communication and Collaborative Innovation<small>AI Agent 介入的溝通、協作與創新共創</small></span><span class="tag">Grad</span></li>
+              <li><span class="n">AI-Driven Digital Health<small>AI 驅動的數位健康</small></span><span class="tag">Grad</span></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Undergraduate courses ready to offer</h3>
+            <p class="sub">3 credits · one 3-hour block · 16 weeks · in English</p>
+            <ul class="course">
+              <li><span class="n">Human–Computer Interaction<small>人機互動</small></span><span class="tag">UG</span></li>
+              <li><span class="n">AI Literacy: Generative AI and Hands-On AI Agents<small>AI 素養：生成式 AI 應用與 AI Agent 實作</small></span><span class="tag">Gen-ed</span></li>
+              <li><span class="n">Learning Analytics, Data Visualization, and Storytelling<small>學習分析、資料視覺化與說故事</small></span><span class="tag">UG</span></li>
+              <li><span class="n">Generative AI and Data Science Applications<small>生成式人工智慧與數據科學應用</small></span><span class="tag">UG</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="awards-strip">
+          <span class="mono">Teaching recognition</span>
+          <p>Teaching Excellence Award, National Tsing Hua University (EMI course evaluation in the top 30% of the department)</p>
+          <p>Teaching Excellence Award, Language Center, National Taiwan University of Science and Technology</p>
+        </div>
+
+        <h3 class="sub-h">Research supervision</h3>
+        <ul class="tl">
+          <li><span class="d">Capstone</span><div><span class="x" style="margin:0">Co-supervised undergraduate capstone teams at NTHU and NCU on deep reinforcement learning for car-following behaviour, FPGA and Verilog system implementation, and NLP for sentiment–market index analysis.</span></div></li>
+          <li><span class="d">2026</span><div><span class="x" style="margin:0">Mentored student research teams using the Uedu platform in MOE Teaching Practice Research projects and NSTC undergraduate research projects.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- UEDU -->
+  <section id="uedu">
+    <div class="sec">
+      <div class="sec-head"><h2>Uedu Academy</h2><span class="cjk">雙語 AI 學習平台</span></div>
+      <div>
+        <p class="lead">Uedu is an agentic AI learning platform I co-founded in 2022 and develop with Prof. Chia-Kai Chang at National Central University. It is a production service deployed at ten universities and indexing more than 31,000 courses, and a research instrument that produces de-identified multimodal interaction data under an IRB-approved governance framework.</p>
+        <ul class="facts">
+          <li><b>10</b><span>universities deployed</span></li>
+          <li><b>31,000+</b><span>courses indexed</span></li>
+          <li><b>Bronze</b><span>Technology Innovation Award, eLFA 2026</span></li>
+        </ul>
+        <div class="agents" aria-label="Uedu four-agent architecture">
+          <div class="agent"><span class="step">AGENT 1</span><h3>Learner Profile</h3><p>Keeps a running picture of each learner's level, goals, and history.</p></div>
+          <div class="agent"><span class="step">AGENT 2</span><h3>Task Planning</h3><p>Breaks course goals into the next task the learner can manage.</p></div>
+          <div class="agent"><span class="step">AGENT 3</span><h3>Adaptive Feedback</h3><p>Responds with Socratic prompts under a scaffolding-and-fading policy.</p></div>
+          <div class="agent"><span class="step">AGENT 4</span><h3>Self-Reflection</h3><p>Asks learners to review what they did and plan the next step.</p></div>
+        </div>
+        <p class="loopnote">Reflection feeds back into the learner profile, closing the loop.</p>
+
+        <h3 class="sub-h">Research infrastructure</h3>
+        <div class="infra">
+          <div><span class="k">Data</span><h4>Educational omics data lake</h4><p>Six data streams (cognitive, linguistic, physiological–neural, social, environmental, ethical) under one de-identified, IRB-governed schema, released to external researchers under controlled access.</p></div>
+          <div><span class="k">Sensing</span><h4>PALM</h4><p>Physiologically-aware language-model tutoring: consumer wearables, through a research partnership with Garmin Taiwan, aligned with LLM tutoring for affect-aware adaptation.</p></div>
+          <div><span class="k">Inference</span><h4>On-premise model service</h4><p>A campus-hosted, Traditional-Chinese-optimised model with transparent load telemetry, for institutions with data-residency constraints.</p></div>
+          <div><span class="k">Access</span><h4>Developer API and MCP server</h4><p>A public API, a Model Context Protocol server, retrieval-augmented knowledge bases, and containerised computational services.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sec">
+      <div class="sec-head"><h2>Experience</h2><span class="cjk">學經歷與榮譽</span></div>
+      <div>
+        <h3 class="sub-h" style="margin-top:0">Education</h3>
+        <ul class="tl">
+          <li><span class="d">2026</span><div><div class="r">Ph.D., International Intercollegiate Ph.D. Program</div><div class="o">National Tsing Hua University, Hsinchu</div><div class="x">Dissertation: <i>A Human-Centered Agentic AI Learning Framework for Higher Education: Design, Evaluation, and Learning Analytics.</i> Advisor: Prof. Tzu-Hua Wang.</div></div></li>
+          <li><span class="d">2015 – 2016</span><div><div class="r">M.A. in Applied English (Computer-Assisted Language Learning)</div><div class="o">National Taipei University of Technology, Taipei</div></div></li>
+        </ul>
+
+        <h3 class="sub-h">Appointments</h3>
+        <ul class="tl">
+          <li><span class="d">2022 – present</span><div><div class="r">Co-Founder and Lead Developer, Uedu Academy</div><div class="o">National Central University</div></div></li>
+          <li><span class="d">Ongoing</span><div><div class="r">Co-Principal Investigator, AI and Digital Database Application Laboratory</div><div class="o">Industrial Technology Research Institute (ITRI); also ITRI instructor for professional AI training</div></div></li>
+          <li><span class="d">—</span><div><div class="r">Project Manager</div><div class="o">Microsoft Taiwan, with ITRI · AI systems for digital learning in higher education</div></div></li>
+          <li><span class="d">2018 – 2021</span><div><div class="r">Lecturer, Department of Education and Learning Technology</div><div class="o">National Tsing Hua University</div></div></li>
+          <li><span class="d">2016 – 2018</span><div><div class="r">Lecturer, Department of Foreign Languages and Literatures</div><div class="o">National Yang Ming Chiao Tung University (formerly National Chiao Tung University)</div></div></li>
+          <li><span class="d">2016 – 2018</span><div><div class="r">Lecturer, Language Center</div><div class="o">NTUST, National Taiwan University, and National Taiwan Normal University</div></div></li>
+        </ul>
+
+        <h3 class="sub-h">Honours and invited talks</h3>
+        <ul class="tl">
+          <li><span class="d">2026</span><div><div class="r">Technology Innovation Award, Bronze Prize</div><div class="o">e-Learning Forum Asia (eLFA) 2026 · for Uedu, with C.-K. Chang</div></div></li>
+          <li><span class="d">2026</span><div><div class="r">Best Paper Award shortlist</div><div class="o">ACM Conference on Learning @ Scale (L@S 2026)</div></div></li>
+          <li><span class="d">Jul 2026</span><div><div class="r">Invited Tutorial co-presenter, IEEE CISOSE 2026, Fukuoka</div><div class="o">"Building and Verifying AI Systems with Agentic AI" · Certificate of Appreciation</div></div></li>
+          <li><span class="d">—</span><div><div class="r">Full International Conference Travel Grant</div><div class="o">National Yang Ming Chiao Tung University</div></div></li>
+          <li><span class="d">—</span><div><div class="r">Invited Speaker, Microsoft</div><div class="o">Cloud computing and blockchain applications for higher education</div></div></li>
+          <li><span class="d">2016 – 2017</span><div><div class="r">Co-Principal Investigator, MOE Multilingual and Cultural Competence Programme</div><div class="o">Cross-campus faculty community on English-medium curriculum development</div></div></li>
+        </ul>
+
+        <h3 class="sub-h">Collaboration</h3>
+        <ul class="tl">
+          <li><span class="d">2026 – present</span><div><div class="r">Uedu–Garmin Health Research Infrastructure Initiative (Lead)</div><div class="o">With National Central University and Garmin Taiwan</div></div></li>
+          <li><span class="d">Ongoing</span><div><div class="r">Taiwan – Greece collaboration</div><div class="o">With Prof. Iraklis, Department of Informatics and Telematics, Harokopio University of Athens, on AI-supported instruction and teacher agency</div></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="sec">
+      <div class="sec-head"><h2>Contact</h2><span class="cjk">聯絡方式</span></div>
+      <div>
+        <dl>
+          <dt>Email</dt><dd><a href="mailto:hao@uedu.tw" id="email">hao@uedu.tw</a><button type="button" class="copy" id="copy-email">Copy</button></dd>
+          <dt>ORCID</dt><dd><a href="https://orcid.org/0009-0007-3474-8489" target="_blank" rel="noopener">0009-0007-3474-8489</a></dd>
+          <dt>CV</dt><dd><a href="cv.pdf" target="_blank" rel="noopener">Curriculum Vitae (PDF)</a></dd>
+          <dt>Platform</dt><dd><a href="https://uedu.tw" target="_blank" rel="noopener">uedu.tw</a></dd>
+          <dt>Languages</dt><dd>Mandarin Chinese (native) · English (full professional proficiency)</dd>
+          <dt>Students</dt><dd>I welcome students interested in AI tutoring, human–AI interaction, learning analytics, and EMI. Please email a short note on your interests and a sample of your work.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Kuei-Hao Li · Research supported in part by the Ministry of Education, Taiwan (MOE-114-TPREE-0008-019Y1, MOE-113-TPREE-0008-007Y1). · Last updated October 2026</div>
+</footer>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.filters button');
+  var items=document.querySelectorAll('#pubs .pub');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var f=b.getAttribute('data-f');
+      btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+      items.forEach(function(it){it.hidden=!(f==='all'||it.getAttribute('data-s')===f)});
+    });
+  });
+  var cb=document.getElementById('copy-email');
+  if(cb){cb.addEventListener('click',function(){
+    var t='hao@uedu.tw';
+    function done(){cb.textContent='Copied';setTimeout(function(){cb.textContent='Copy'},1600)}
+    function fallback(){var r=document.createRange();r.selectNodeContents(document.getElementById('email'));var s=window.getSelection();s.removeAllRanges();s.addRange(r)}
+    try{navigator.clipboard.writeText(t).then(done,fallback)}catch(e){fallback()}
+  })}
+})();
+</script>
+</body>
+</html>
